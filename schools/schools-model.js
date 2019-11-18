@@ -11,9 +11,23 @@ function findSchool(filter) {
   return db('schools').where(filter);
 }
 
+/* 
+select  s.school_name, s.school_city, s.school_state, u.first_name, u.last_name, u.board, u.email from users_schools us
+join users as u
+	on u.user_id = us.user_id
+join schools as s
+	on s.school_id = us.school_id
+
+select s.school_name, s.school_city, s.school_state, u.first_name, u.last_name, u.board, u.email from users_schools us join users as u on u.user_id = us.user_id join schools as s on s.school_id = us.school_id
+*/
+
 function schoolsAndUsers() {
-  return db.raw('select s.school_name, s.school_city, s.school_state, u.first_name, u.last_name, u.board, u.email from users_schools us join users as u on u.user_id = us.user_id join schools as s on s.school_id = us.school_id')
+  return db('users_schools as us')
+    .join('users as u', 'u.user_id', 'us.user_id')
+    .join('schools as s', 's.school_id', 'us.school_id')
+    .select('s.school_name', 's.school_city', 's.school_state', 'u.first_name', 'u.last_name', 'u.email', 'u.board', 'u.primary_admin', 'u.sec_admin');
 }
+
 
 
 function findSchoolById(school_id) {

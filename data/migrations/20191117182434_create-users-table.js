@@ -18,7 +18,9 @@ exports.up = function (knex) {
       .notNullable()
     col.varchar('state', 255)
       .notNullable()
-    col.boolean('board')
+    col.boolean('board').defaultTo(false);
+    col.boolean('primary_admin').defaultTo(false);
+    col.boolean('sec_admin').defaultTo(false);
     col.timestamp('create_at').defaultTo(knex.fn.now())
     col.timestamp('updated_at').defaultTo(knex.fn.now())
   })
