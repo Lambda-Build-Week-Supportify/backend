@@ -10,19 +10,25 @@ function findIssues(filter) {
 
 function findIssuesById(issues_id) {
   return db("issues")
-    .where({ issues_id })
+    .where("issues.id", issues_id)
     .first();
 }
 
-async function addIssues(issuesInfo) {
-  const [issues_id] = await db("issues").insert(issuesInfo);
+function addIssues(issuesInfo) {
+  console.log(issuesInfo);
+  return db("issues").insert(issuesInfo);
+}
 
-  return findIssuesById(issues_id);
+function removeIssues(issues_id) {
+  return db("issues")
+    .where("issues.id", issues_id)
+    .del();
 }
 
 module.exports = {
   getAllIssues,
   findIssues,
   findIssuesById,
-  addIssues
+  addIssues,
+  removeIssues
 };
