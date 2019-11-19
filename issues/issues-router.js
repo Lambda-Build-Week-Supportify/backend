@@ -41,7 +41,7 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const { issues_id } = req.params;
+  const { issues_id } = req.params.id;
   const changes = req.body;
 
   Issues.findIssuesById(issues_id)
