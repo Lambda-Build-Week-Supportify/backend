@@ -10,7 +10,7 @@ function findIssues(filter) {
 
 function findIssuesById(issues_id) {
   return db("issues")
-    .where("issues.id", issues_id)
+    .where("issues_id", issues_id)
     .first();
 }
 
@@ -21,7 +21,7 @@ function addIssues(issuesInfo) {
 
 function removeIssues(issues_id) {
   return db("issues")
-    .where("issues.id", issues_id)
+    .where("issues_id", issues_id)
     .del();
 }
 

@@ -4,12 +4,9 @@ function getAllSchools() {
   return db('schools');
 }
 
-
 function findSchool(filter) {
   return db('schools').where(filter);
 }
-
-
 
 function schoolsAndUsers() {
   return db('users_schools as us')
@@ -23,7 +20,6 @@ function findSchoolById(school_id) {
     .where({ school_id })
     .first();
 }
-
 
 async function addSchool(schoolInfo) {
   const [school_id] = await db('schools').insert(schoolInfo, "school_id");
