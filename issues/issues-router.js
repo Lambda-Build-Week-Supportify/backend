@@ -2,8 +2,8 @@ const router = require("express").Router();
 const Issues = require("./issues-model");
 const restricted = require("../auth/restricted-middleware");
 
-// !! don't forget to replace restricted middleware ^^
-router.get("/", restricted, (req, res) => {
+// !! don't forget to replace restricted middleware restricted,  ^^
+router.get("/", (req, res) => {
   console.log("issues-router.js decodedToken", req.decodedJwt);
   Issues.getAllIssues().then(issues => {
     res.status(200).json(issues);

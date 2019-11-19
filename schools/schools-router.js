@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
   const schoolInfo = req.body;
   Schools.addSchool(schoolInfo)
     .then(newSchool => {
-      res.status(201).json({ newSchool });
+      res.status(201).json(newSchool);
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "There was a problem adding the new school. Make sure all required fields are filled in." })
