@@ -60,7 +60,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  const issues_id = req.params;
+  const issues_id = req.params.id;
 
   Issues.removeIssues(issues_id)
     .then(deleted => {
