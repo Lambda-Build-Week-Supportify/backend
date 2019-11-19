@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
       res.status(201).json({ token, newUser })
     })
     .catch(error => {
-      res.status(500).json(error);
+      res.status(500).json({ error: error, message: "This username already exists!" });
     });
 
 })

@@ -1,7 +1,5 @@
 const db = require("../data/dbConfig");
 
-
-
 function getAllSchools() {
   return db('schools');
 }
@@ -19,8 +17,6 @@ function schoolsAndUsers() {
     .join('schools as s', 's.school_id', 'us.school_id')
     .select('s.school_id', 's.school_name', 's.school_city', 's.school_state', 'u.user_id', 'u.first_name', 'u.last_name', 'u.email', 'u.board', 'u.primary_admin', 'u.sec_admin');
 }
-
-
 
 function findSchoolById(school_id) {
   return db('schools')
@@ -41,7 +37,24 @@ function connectUser(user_id, school_id) {
     .insert({ user_id: user_id, school_id: school_id })
 }
 
+function update(school_id, changes) {
+  return db('schools')
+    .where({ school_id })
+    .update(changes);
+}
 
+function remove(school_id) {
+  return db('schools')
+    .where('school_id', school_id)
+    .del();
+}
+
+function removeUserFromSchool(user_id, school_id) {
+  console.log(user_id, school_id);
+  return db('users_schools')
+    .where({ user_id, school_id })
+    .del()
+}
 
 
 
@@ -51,5 +64,8 @@ module.exports = {
   findSchoolById,
   schoolsAndUsers,
   addSchool,
-  connectUser
+  connectUser,
+  update,
+  remove,
+  removeUserFromSchool
 }

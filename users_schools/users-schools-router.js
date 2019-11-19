@@ -44,4 +44,37 @@ router.post('/connect-user', (req, res) => {
 
 })
 
+
+router.delete('/schools', (req, res) => {
+  const { user_id, school_id } = req.body
+
+  Users.findById(user_id)
+    .then(user => {
+      if (!user) {
+        res.status(401).json({ errorMessage: "We don't have a user by that id" })
+      } else {
+        console.log(user)
+        Schools.findSchoolById(school_id)
+          .then(school => {
+            if (!school) {
+              res.status(401).json({ errorMessage: "We don't have a school by that id" })
+            } else {
+              console.log(school)
+              Schools.removeUserFromSchool(user_id, school_id)
+                .then(info => {
+                  res.status(200).json({ info })
+                })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            res.status(500).json({ errorInfo: err })
+          })
+      }
+
+    })
+
+
+})
+
 module.exports = router;

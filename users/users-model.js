@@ -4,7 +4,9 @@ module.exports = {
   add,
   find,
   findBy,
-  findById
+  findById,
+  remove,
+  update
 };
 
 function find() {
@@ -25,6 +27,18 @@ function findById(user_id) {
   return db('users')
     .where({ user_id })
     .first();
+}
+
+function update(user_id, changes) {
+  return db('users')
+    .where({ user_id })
+    .update(changes);
+}
+
+function remove(user_id) {
+  return db('users')
+    .where('user_id', user_id)
+    .del();
 }
 
 

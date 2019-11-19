@@ -26,6 +26,20 @@ router.get('/:id', (req, res) => {
     })
 
 })
+// will add auth/validation middleware here
+router.delete('/:id', (req, res) => {
+  Users.remove(req.params.id)
+    .then(info => res.sendStatus(204))
+    .catch(err => res.sendStatus(500))
+});
+// will add auth/validation middleware here
+router.put('/:id', (req, res) => {
+  console.log("req.user", req.user);
+  Users.update(req.params.id, req.body)
+    .then(changes => {
+      res.status(200).json(changes);
+    })
+});
 
 
 module.exports = router;
