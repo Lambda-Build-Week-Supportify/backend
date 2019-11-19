@@ -1,7 +1,11 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const Users = require('../users/users-model');
+
+
+
 
 router.post('/register', (req, res) => {
   const userInfo = req.body;
@@ -10,9 +14,10 @@ router.post('/register', (req, res) => {
 
   Users.add(userInfo)
     .then(newUser => {
+      console.log("New User", newUser)
       const token = generateToken(newUser);
-      console.log(token);
-      res.status(201).json(newUser)
+      console.log("Token: ", token);
+      res.status(201).json({ token, newUser })
     })
     .catch(error => {
       res.status(500).json(error);

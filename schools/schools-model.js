@@ -44,6 +44,11 @@ async function addSchool(schoolInfo) {
 
 }
 
+function connectUser(user_id, school_id) {
+  return db('users_schools')
+    .insert({ user_id, school_id })
+}
+
 
 
 
@@ -53,5 +58,6 @@ module.exports = {
   findSchool,
   findSchoolById,
   schoolsAndUsers,
-  addSchool
+  addSchool,
+  connectUser
 }

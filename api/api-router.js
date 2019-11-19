@@ -3,7 +3,7 @@ const authRouter = require('../auth/auth-router');
 const usersRouter = require('../users/users-router');
 const schoolsRouter = require('../schools/schools-router');
 const usersSchoolsRouter = require('../users_schools/users-schools-router');
-const issuesRouter = require('../issues/issueRouter');
+const issuesRouter = require('../issues/issues-router');
 
 
 router.use('/auth', authRouter);
