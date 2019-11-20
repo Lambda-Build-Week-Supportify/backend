@@ -41,14 +41,16 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const { issues_id } = req.params.id;
+  const issues_id = req.params.id;
   const changes = req.body;
-
+  console.log("FindIssuesById issues_id", issues_id, "req.body", req.body)
   Issues.findIssuesById(issues_id)
+
     .then(issues => {
+
       if (issues) {
-        Issues.update(changes, issues_id).then(updatedIssue => {
-          res.json(updatedIssue, "issues_id");
+        Issues.updateIssues(issues_id, changes).then(updatedIssue => {
+          res.json({ updatedIssue, issues_id });
         });
       } else {
         res.status(404).json({ message: "Could not find issue with given id" });

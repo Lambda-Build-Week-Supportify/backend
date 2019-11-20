@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Users = require('./users-model');
 const restricted = require('../auth/restricted-middleware');
 
-// !! don't forget to replace restricted middleware restricted, ^^
+// !! don't forget to replace restricted middleware restricted, ^^ note: const user_id = req.decodedJWt.user_id
 router.get('/', (req, res) => {
 
   console.log("users-router.js decodedToken", req.decodedJwt)
@@ -32,9 +32,11 @@ router.delete('/:id', (req, res) => {
     .then(info => res.sendStatus(204))
     .catch(err => res.sendStatus(500))
 });
+
+
 // will add auth/validation middleware here
 router.put('/:id', (req, res) => {
-  console.log("req.user", req.user);
+
   Users.update(req.params.id, req.body)
     .then(changes => {
       res.status(200).json(changes);
