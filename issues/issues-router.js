@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
     res.status(200).json(issues);
   });
 });
-//restricted, checkRole("student"),
+
 router.get("/:id", (req, res) => {
   const issue_id = req.params.id;
   Issues.findIssuesById(issue_id)
@@ -43,11 +43,9 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   const issues_id = req.params.id;
   const changes = req.body;
-  console.log("FindIssuesById issues_id", issues_id, "req.body", req.body)
+  console.log("FindIssuesById issues_id", issues_id, "req.body", req.body);
   Issues.findIssuesById(issues_id)
-
     .then(issues => {
-
       if (issues) {
         Issues.updateIssues(issues_id, changes).then(updatedIssue => {
           res.json({ updatedIssue, issues_id });
@@ -63,24 +61,26 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
-  console.log(req.decodedJwt)
+  console.log(req.decodedJwt);
   const board = req.decodedJwt.board;
-if (!board) {
-  console.log('you have reached it')
-  Issues.removeIssues(issues_id)
-    .then(deleted => {
-      if (deleted) {
-        res.json({ removed: deleted });
-      } else {
-        res.status(404).json({ message: "Could not find issue with given id" });
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Failed to delete issue" });
-    });
-} else {
-  res.json({message: "You do not have rights to delete"})
-}
+  if (!board) {
+    console.log("you have reached it");
+    Issues.removeIssues(issues_id)
+      .then(deleted => {
+        if (deleted) {
+          res.json({ removed: deleted });
+        } else {
+          res
+            .status(404)
+            .json({ message: "Could not find issue with given id" });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to delete issue" });
+      });
+  } else {
+    res.json({ message: "You do not have rights to delete" });
+  }
 });
 
 // function checkRole(role) {
