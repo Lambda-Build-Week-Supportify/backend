@@ -25,10 +25,17 @@ function removeIssues(issues_id) {
     .del();
 }
 
+function updateIssues(issues_id, changes) {
+  return db('issues')
+    .where({ issues_id })
+    .update(changes);
+}
+
 module.exports = {
   getAllIssues,
   findIssues,
   findIssuesById,
   addIssues,
-  removeIssues
+  removeIssues,
+  updateIssues
 };

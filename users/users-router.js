@@ -2,13 +2,10 @@ const router = require("express").Router();
 const Users = require("./users-model");
 const restricted = require("../auth/restricted-middleware");
 
-// !! don't forget to replace restricted middleware restricted, ^^
-router.get("/", (req, res) => {
-const board = req.decodedJwt.board;
-if (board) {
-  users.find()
-}
-  console.log("users-router.js decodedToken", req.decodedJwt);
+// !! don't forget to replace restricted middleware restricted, ^^ note: const user_id = req.decodedJWt.user_id
+router.get('/', (req, res) => {
+
+  console.log("users-router.js decodedToken", req.decodedJwt)
   Users.find()
     .then(users => {
       res.status(200).json(users);
@@ -22,28 +19,38 @@ router.get("/:id", (req, res) => {
   const user_id = req.params.id;
   Users.findById(user_id)
     .then(user => {
-      res.status(200).json(user);
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(400).json({ errorMessage: "Sorry, we couldn't find a user by that id" })
+      }
+
     })
     .catch(err => {
-      res
-        .status(404)
-        .json({
-          errorMessage: "We couldn't find a user with that id in our database"
-        });
-    });
-});
+      res.status(500).json({ errorMessage: "Sorry, internal server error." })
+    })
+
+})
 // will add auth/validation middleware here
 router.delete("/:id", (req, res) => {
   Users.remove(req.params.id)
     .then(info => res.sendStatus(204))
     .catch(err => res.sendStatus(500));
 });
+
+
 // will add auth/validation middleware here
-router.put("/:id", (req, res) => {
-  console.log("req.user", req.user);
-  Users.update(req.params.id, req.body).then(changes => {
-    res.status(200).json(changes);
-  });
+router.put('/:id', (req, res) => {
+
+  Users.update(req.params.id, req.body)
+    .then(updatedUser => {
+      if (updatedUser) {
+        res.status(200).json(updatedUser);
+      } else {
+        res.status(400).json({ errorMessage: "Sorry, we don't have a user by that id" })
+      }
+
+    })
 });
 
 module.exports = router;
