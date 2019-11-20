@@ -2,8 +2,9 @@ const router = require('express').Router();
 const Users = require('../users/users-model');
 const Schools = require('../schools/schools-model');
 
+
 // endpoint: api/users-schools/shcools
-router.get('/schools', (req, res) => {
+router.get('/all', (req, res) => {
   Schools.schoolsAndUsers()
     .then(schools => {
       res.status(200).json(schools);
@@ -13,21 +14,31 @@ router.get('/schools', (req, res) => {
     })
 })
 
-// endpoint: api/users-schools/shcools/:id
-router.get('/schools/:id', (req, res) => {
+// endpoint: api/users-schools/shcool/:id
+router.get('/school/:id', (req, res) => {
   const school_id = req.params.id;
-  Schools.aSchoolUsers(school_id)
+  Schools.findSchoolById(school_id)
     .then(school => {
-      res.status(200).json(school);
+      if (school) {
+        Schools.aSchoolUsers(school_id)
+          .then(school => {
+            res.status(200).json(school);
+          })
+      } else {
+        res.status(404).json({ errorMessage: "Sorry, there's no school by that id" })
+      }
+
     })
+
     .catch(err => {
       res.status(500).json({ message: "Something went wrong with your request for a school's users" })
     })
 })
 
-// endpoint: api/users-schools/users/:id
-router.get('/users/:id', (req, res) => {
+// endpoint: api/users-schools/user/:id
+router.get('/user/:id', (req, res) => {
   const user_id = req.params.id;
+
   Schools.aUserSchools(user_id)
     .then(user => {
       res.status(200).json(user);
@@ -36,9 +47,6 @@ router.get('/users/:id', (req, res) => {
       res.status(500).json({ message: "Something went wrong with your request for schools' users" })
     })
 })
-
-
-
 
 // endpoint: api/users-schools/connect-user
 router.post('/connect-user', (req, res) => {
@@ -71,8 +79,7 @@ router.post('/connect-user', (req, res) => {
     })
 })
 
-
-router.delete('/schools', (req, res) => {
+router.delete('/disconnect', (req, res) => {
   const { user_id, school_id } = req.body
 
   Users.findById(user_id)
@@ -100,8 +107,6 @@ router.delete('/schools', (req, res) => {
       }
 
     })
-
-
 })
 
 module.exports = router;
