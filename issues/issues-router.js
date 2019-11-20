@@ -63,7 +63,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
-  console.log(req.decodedJwt)
+  console.log("issues_id", issues_id)
   const board = req.decodedJwt.board;
   if (!board) {
     console.log('you have reached it')
