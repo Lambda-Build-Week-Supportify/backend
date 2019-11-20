@@ -26,7 +26,7 @@ function removeIssues(issues_id) {
 }
 
 function updateIssues(issues_id, changes) {
-  return db('issues')
+  return db("issues")
     .where({ issues_id })
     .update(changes);
 }

@@ -8,6 +8,16 @@ exports.up = function(knex) {
     issues.string("general_issues");
     issues.string("estimated_cost");
     issues.boolean("completed").defaultTo(false);
+    issues.boolean("needs_attention").defaultTo(false);
+    issues.boolean("scheduled").defaultTo(false);
+    issues
+      .integer("user_id")
+      .unsigned()
+      .notNullable()
+      .references("user_id")
+      .inTable("users")
+      .onUpdate("CASCADE")
+      .onDelete("CASCADE");
   });
 };
 
