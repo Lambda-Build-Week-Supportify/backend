@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Users = require('../users/users-model');
 const Schools = require('../schools/schools-model');
 
+// endpoint: api/users-schools/shcools
 router.get('/schools', (req, res) => {
   Schools.schoolsAndUsers()
     .then(schools => {
@@ -12,6 +13,34 @@ router.get('/schools', (req, res) => {
     })
 })
 
+// endpoint: api/users-schools/shcools/:id
+router.get('/schools/:id', (req, res) => {
+  const school_id = req.params.id;
+  Schools.aSchoolUsers(school_id)
+    .then(school => {
+      res.status(200).json(school);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Something went wrong with your request for a school's users" })
+    })
+})
+
+// endpoint: api/users-schools/users/:id
+router.get('/users/:id', (req, res) => {
+  const user_id = req.params.id;
+  Schools.aUserSchools(user_id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Something went wrong with your request for schools' users" })
+    })
+})
+
+
+
+
+// endpoint: api/users-schools/connect-user
 router.post('/connect-user', (req, res) => {
   const { user_id, school_id } = req.body
 
@@ -40,8 +69,6 @@ router.post('/connect-user', (req, res) => {
       }
 
     })
-
-
 })
 
 
@@ -62,7 +89,7 @@ router.delete('/schools', (req, res) => {
               console.log(school)
               Schools.removeUserFromSchool(user_id, school_id)
                 .then(info => {
-                  res.status(200).json({ info })
+                  res.status(200).json({ info, message: "the user-school relationship was successfully deleted" })
                 })
             }
           })
