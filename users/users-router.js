@@ -19,10 +19,15 @@ router.get('/:id', (req, res) => {
   const user_id = req.params.id;
   Users.findById(user_id)
     .then(user => {
-      res.status(200).json(user);
+      if (user) {
+        res.status(200).json(user);
+      } else {
+        res.status(400).json({ errorMessage: "Sorry, we couldn't find a user by that id" })
+      }
+
     })
     .catch(err => {
-      res.status(404).json({ errorMessage: "We couldn't find a user with that id in our database" })
+      res.status(500).json({ errorMessage: "Sorry, internal server error." })
     })
 
 })
@@ -38,8 +43,13 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
 
   Users.update(req.params.id, req.body)
-    .then(changes => {
-      res.status(200).json(changes);
+    .then(updatedUser => {
+      if (updatedUser) {
+        res.status(200).json(updatedUser);
+      } else {
+        res.status(400).json({ errorMessage: "Sorry, we don't have a user by that id" })
+      }
+
     })
 });
 

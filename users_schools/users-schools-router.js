@@ -10,7 +10,7 @@ router.get('/all', (req, res) => {
       res.status(200).json(schools);
     })
     .catch(err => {
-      res.status(500).json({ message: "Something went wrong with your request for schools' users" })
+      res.status(500).json({ message: "Something went wrong with your request." })
     })
 })
 
@@ -25,26 +25,32 @@ router.get('/school/:id', (req, res) => {
             res.status(200).json(school);
           })
       } else {
-        res.status(404).json({ errorMessage: "Sorry, there's no school by that id" })
+        res.status(404).json({ errorMessage: "Sorry, there's either no school by that id, or that school is not connected to any users" })
       }
 
     })
 
     .catch(err => {
-      res.status(500).json({ message: "Something went wrong with your request for a school's users" })
+      res.status(500).json({ message: "Something went wrong with your request." })
     })
 })
 
 // endpoint: api/users-schools/user/:id
 router.get('/user/:id', (req, res) => {
   const user_id = req.params.id;
-
-  Schools.aUserSchools(user_id)
+  Users.findById(user_id)
     .then(user => {
-      res.status(200).json(user);
+      if (user) {
+        Schools.aUserSchools(user_id)
+          .then(user => {
+            res.status(200).json(user);
+          })
+      } else {
+        res.status(404).json({ errorMessage: "Sorry, there's either no user by that id, or that user is not connected to any schools" })
+      }
     })
     .catch(err => {
-      res.status(500).json({ message: "Something went wrong with your request for schools' users" })
+      res.status(500).json({ message: "Something went wrong with your request" })
     })
 })
 
