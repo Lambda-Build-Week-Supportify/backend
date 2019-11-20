@@ -32,10 +32,18 @@ router.get("/:id", (req, res) => {
 
 })
 // will add auth/validation middleware here
-router.delete("/:id", (req, res) => {
-  Users.remove(req.params.id)
-    .then(info => res.sendStatus(204))
-    .catch(err => res.sendStatus(500));
+router.delete("/:id", restricted, (req, res) => {
+  const sec_admin = req.decodedJwt.sec_admin;
+  if (sec_admin) {
+    res.status(401).json({ message: "You don't have user privileges to delete users" })
+  } else
+    Users.remove(req.params.id)
+      .then(info => {
+        if (info) {
+          res.sendStatus(204)
+        } else { res.status(404).json({ message: "That user id does not exist" }) }
+      })
+      .catch(err => res.sendStatus(500));
 });
 
 
