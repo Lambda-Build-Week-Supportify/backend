@@ -1,6 +1,6 @@
-const router = require('express').Router();
-const Users = require('./users-model');
-const restricted = require('../auth/restricted-middleware');
+const router = require("express").Router();
+const Users = require("./users-model");
+const restricted = require("../auth/restricted-middleware");
 
 // !! don't forget to replace restricted middleware restricted, ^^ note: const user_id = req.decodedJWt.user_id
 router.get('/', (req, res) => {
@@ -11,11 +11,11 @@ router.get('/', (req, res) => {
       res.status(200).json(users);
     })
     .catch(err => {
-      res.status(500).json({ errorMessage: "Sorry, internal server error." })
-    })
-})
+      res.status(500).json({ errorMessage: "Sorry, internal server error." });
+    });
+});
 
-router.get('/:id', (req, res) => {
+router.get("/:id", (req, res) => {
   const user_id = req.params.id;
   Users.findById(user_id)
     .then(user => {
@@ -32,10 +32,10 @@ router.get('/:id', (req, res) => {
 
 })
 // will add auth/validation middleware here
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
   Users.remove(req.params.id)
     .then(info => res.sendStatus(204))
-    .catch(err => res.sendStatus(500))
+    .catch(err => res.sendStatus(500));
 });
 
 
@@ -52,6 +52,5 @@ router.put('/:id', (req, res) => {
 
     })
 });
-
 
 module.exports = router;

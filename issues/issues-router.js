@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
     .then(newIssue => {
       console.log(newIssue);
       res.status(201).json({
-        message: "you have successfully added a user to the database"
+        message: "you have successfully added an issue to the database"
       });
     })
     .catch(err => {
@@ -61,9 +61,12 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
-
+  console.log(req.decodedJwt)
+  const board = req.decodedJwt.board;
+if (!board) {
+  console.log('you have reached it')
   Issues.removeIssues(issues_id)
     .then(deleted => {
       if (deleted) {
@@ -75,6 +78,9 @@ router.delete("/:id", (req, res) => {
     .catch(err => {
       res.status(500).json({ message: "Failed to delete issue" });
     });
+} else {
+  res.json({message: "You do not have rights to delete"})
+}
 });
 
 // function checkRole(role) {
