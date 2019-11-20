@@ -61,23 +61,26 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
-  console.log(req.decodedJwt);
+  console.log(req.decodedJwt)
   const board = req.decodedJwt.board;
-
-
-  Issues.removeIssues(issues_id)
-    .then(deleted => {
-      if (deleted) {
-        res.json({ removed: deleted });
-      } else {
-        res.status(404).json({ message: "Could not find issue with given id" });
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Failed to delete issue" });
-    });
+  if (!board) {
+    console.log('you have reached it')
+    Issues.removeIssues(issues_id)
+      .then(deleted => {
+        if (deleted) {
+          res.json({ removed: deleted });
+        } else {
+          res.status(404).json({ message: "Could not find issue with given id" });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to delete issue" });
+      });
+  } else {
+    res.json({ message: "You do not have rights to delete" })
+  }
 });
 
 // function checkRole(role) {
