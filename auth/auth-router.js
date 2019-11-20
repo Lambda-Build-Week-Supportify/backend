@@ -75,6 +75,9 @@ function generateToken(user) {
   const payload = {
     sub: user.user_id,
     username: user.username,
+    board: user.board,
+    primary_admin: user.primary_admin,
+    sec_admin: user.sec_admin
 
   }
   console.log('PAYLOAD: ', payload);

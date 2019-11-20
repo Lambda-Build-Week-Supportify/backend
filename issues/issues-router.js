@@ -29,7 +29,7 @@ router.post("/", (req, res) => {
     .then(newIssue => {
       console.log(newIssue);
       res.status(201).json({
-        message: "you have successfully added a user to the database"
+        message: "you have successfully added an issue to the database"
       });
     })
     .catch(err => {
@@ -63,6 +63,9 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const issues_id = req.params.id;
+  console.log(req.decodedJwt);
+  const board = req.decodedJwt.board;
+
 
   Issues.removeIssues(issues_id)
     .then(deleted => {
