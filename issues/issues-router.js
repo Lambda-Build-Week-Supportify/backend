@@ -22,6 +22,26 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/user/:id", (req, res) => {
+  const user_id = req.params.id;
+  Issues.userIssues(user_id)
+    .then(issues => {
+      if (issues) {
+        res.status(200).json(issues);
+      } else {
+        res
+          .status(404)
+          .json({ message: "there are no issues associated with this user" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        errorMessage: "Somthing went wrong with your request",
+        sqlErr: err.toString()
+      });
+    });
+});
+
 router.post("/", (req, res) => {
   const issuesInfo = req.body;
 

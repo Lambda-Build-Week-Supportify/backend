@@ -31,11 +31,25 @@ function updateIssues(issues_id, changes) {
     .update(changes);
 }
 
+function userIssues(users_id) {
+  return db("issues as i")
+    .join("users as u", "u.user_id", "i.user_id")
+    .select(
+      "u.first_name",
+      "u.last_name",
+      "u.board",
+      "u.primary_admin",
+      "u.sec_admin",
+      "i.*"
+    )
+    .where("u.user_id", "=", users_id);
+}
 module.exports = {
   getAllIssues,
   findIssues,
   findIssuesById,
   addIssues,
   removeIssues,
-  updateIssues
+  updateIssues,
+  userIssues
 };
