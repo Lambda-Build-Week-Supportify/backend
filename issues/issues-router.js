@@ -79,7 +79,7 @@ router.delete("/:id", restricted, (req, res) => {
         res.status(500).json({ message: "Failed to delete issue" });
       });
   } else {
-    res.json({ message: "You do not have rights to delete" })
+    res.status(401).json({ message: "You do not have rights to delete" })
   }
 });
 
