@@ -57,8 +57,9 @@ function generateToken(user) {
     board: user.board,
     primary_admin: user.primary_admin,
     sec_admin: user.sec_admin
-  };
-  console.log("PAYLOAD: ", payload);
+
+  }
+  console.log('PAYLOAD: ', payload);
   const secret = process.env.JWT_SECRET || "no evn secret";
 
   const options = {

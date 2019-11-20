@@ -21,7 +21,7 @@ function addIssues(issuesInfo) {
 
 function removeIssues(issues_id) {
   return db("issues")
-    .where("issues_id", issues_id)
+    .where({ issues_id: issues_id })
     .del();
 }
 

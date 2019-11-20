@@ -61,7 +61,7 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
-  console.log(req.decodedJwt);
+  console.log("issues_id", issues_id);
   const board = req.decodedJwt.board;
   if (!board) {
     console.log("you have reached it");
@@ -79,7 +79,7 @@ router.delete("/:id", restricted, (req, res) => {
         res.status(500).json({ message: "Failed to delete issue" });
       });
   } else {
-    res.json({ message: "You do not have rights to delete" });
+    res.status(401).json({ message: "You do not have rights to delete" });
   }
 });
 

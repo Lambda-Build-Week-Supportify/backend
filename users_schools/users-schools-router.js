@@ -61,13 +61,13 @@ router.post('/connect-user', (req, res) => {
   Users.findById(user_id)
     .then(user => {
       if (!user) {
-        res.status(401).json({ errorMessage: "We don't have a user by that id" })
+        res.status(404).json({ errorMessage: "We don't have a user by that id" })
       } else {
         console.log(user)
         Schools.findSchoolById(school_id)
           .then(school => {
             if (!school) {
-              res.status(401).json({ errorMessage: "We don't have a school by that id" })
+              res.status(404).json({ errorMessage: "We don't have a school by that id" })
             } else {
               console.log(school)
               Schools.connectUser(user_id, school_id)
