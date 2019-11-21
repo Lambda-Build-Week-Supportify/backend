@@ -42,22 +42,26 @@ router.get("/user/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", restricted, (req, res) => {
   const issuesInfo = req.body;
-
-  Issues.addIssues(issuesInfo)
-    .then(newIssue => {
-      console.log(newIssue);
-      res.status(201).json({
-        message: "you have successfully added an issue to the database"
+  const board = req.decodedJwt.board;
+  if (!board) {
+    Issues.addIssues(issuesInfo)
+      .then(newIssue => {
+        console.log(newIssue);
+        res.status(201).json({
+          message: "you have successfully added an issue to the database"
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          errorMessage: "Failed to create new issue",
+          sqlErr: err.toString()
+        });
       });
-    })
-    .catch(err => {
-      res.status(500).json({
-        errorMessage: "Failed to create new issue",
-        sqlErr: err.toString()
-      });
-    });
+  } else {
+    res.status(401).json({ message: "You do not have rights to add an issue" });
+  }
 });
 
 router.put("/:id", (req, res) => {
@@ -99,7 +103,9 @@ router.delete("/:id", restricted, (req, res) => {
         res.status(500).json({ message: "Failed to delete issue" });
       });
   } else {
-    res.status(401).json({ message: "You do not have rights to delete" });
+    res
+      .status(401)
+      .json({ message: "You do not have rights to delete an issue" });
   }
 });
 
