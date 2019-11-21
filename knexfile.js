@@ -33,9 +33,11 @@ module.exports = {
     }
   },
   testing: {
-    client: "sqlite3",
+    client: "pg",
     connection: {
-      filename: "./data/test.db3"
+      database: process.env.DB_TESTING_DATABASE,
+      user: process.env.DB_DEV_USER,
+      password: process.env.DB_DEV_PASSWORD
     },
     useNullAsDefault: true,
     migrations: {

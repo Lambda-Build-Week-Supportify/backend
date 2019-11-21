@@ -64,23 +64,32 @@ router.post("/", restricted, (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", restricted, (req, res) => {
   const issues_id = req.params.id;
   const changes = req.body;
   console.log("FindIssuesById issues_id", issues_id, "req.body", req.body);
-  Issues.findIssuesById(issues_id)
-    .then(issues => {
-      if (issues) {
-        Issues.updateIssues(issues_id, changes).then(updatedIssue => {
-          res.json({ updatedIssue, issues_id });
-        });
-      } else {
-        res.status(404).json({ message: "Could not find issue with given id" });
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Failed to update issue" });
-    });
+  const board = req.decodedJwt.board;
+  if (!board) {
+    Issues.findIssuesById(issues_id)
+      .then(issues => {
+        if (issues) {
+          Issues.updateIssues(issues_id, changes).then(updatedIssue => {
+            res.json({ updatedIssue, issues_id });
+          });
+        } else {
+          res
+            .status(404)
+            .json({ message: "Could not find issue with given id" });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: "Failed to update issue" });
+      });
+  } else {
+    res
+      .status(401)
+      .json({ message: "You do not have rights to edit an issue" });
+  }
 });
 
 router.delete("/:id", restricted, (req, res) => {
@@ -108,15 +117,5 @@ router.delete("/:id", restricted, (req, res) => {
       .json({ message: "You do not have rights to delete an issue" });
   }
 });
-
-// function checkRole(role) {
-//   return function(req, res, next) {
-//     if (role === req.decodedJwt.role) {
-//       next();
-//     } else {
-//       res.status(403).json({ message: "Not Authorized" });
-//     }
-//   };
-// }
 
 module.exports = router;
