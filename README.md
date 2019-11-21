@@ -1,4 +1,4 @@
-# SupportifyAfricaHeroku
+# Supportify
 
 *Introduction*
 Connects users, schools and issues together
