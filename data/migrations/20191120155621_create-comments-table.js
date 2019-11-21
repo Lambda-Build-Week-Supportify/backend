@@ -1,5 +1,6 @@
 
 exports.up = function (knex) {
+  // comments table
   return knex.schema.createTable("comments", col => {
     col.increments("comment_id");
     col.string("comment")
