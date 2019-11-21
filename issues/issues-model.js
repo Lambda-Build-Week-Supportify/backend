@@ -26,9 +26,11 @@ function removeIssues(issues_id) {
 }
 
 function updateIssues(issues_id, changes) {
+  console.log("issues-model updateIssues reached issues_id, changes:", issues_id, changes);
   return db("issues")
-    .where({ issues_id })
-    .update(changes);
+    .update(changes)
+    .where({ issues_id });
+
 }
 
 function userIssues(users_id) {
