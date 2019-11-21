@@ -59,7 +59,9 @@ router.delete('/:id', (req, res) => {
 // will add auth/validation middleware here
 router.put('/:id', (req, res) => {
   console.log("req.user", req.user);
-  Schools.update(req.params.id, req.body)
+  const school_id = req.params.id;
+  const changes = req.body;
+  Schools.updateSchool(school_id, changes)
     .then(changes => {
       res.status(200).json(changes);
     })
