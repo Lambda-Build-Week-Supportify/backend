@@ -25,12 +25,18 @@ router.get('/:id', (req, res) => {
   const school_id = req.params.id;
   Schools.findSchoolById(school_id)
     .then(school => {
-      res.status(200).json({ school });
+      if (school) {
+        res.status(200).json({ school });
+      } else {
+        res.status(404).json({ message: "We don't have a school by that id" })
+      }
     })
     .catch(err => {
       res.status(500).json({ errorMessage: "Somthing went wrong with your request" })
     })
 })
+
+
 
 router.post('/', (req, res) => {
   const schoolInfo = req.body;
@@ -43,18 +49,22 @@ router.post('/', (req, res) => {
     })
 })
 
-
 router.delete('/:id', (req, res) => {
   Schools.remove(req.params.id)
     .then(info => res.sendStatus(204))
     .catch(err => res.sendStatus(500))
 });
+
+
 // will add auth/validation middleware here
 router.put('/:id', (req, res) => {
   console.log("req.user", req.user);
   Schools.update(req.params.id, req.body)
     .then(changes => {
       res.status(200).json(changes);
+    })
+    .catch(err => {
+      res.status(500).json({ message: "something went wrong with your request." })
     })
 });
 
