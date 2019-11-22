@@ -53,10 +53,11 @@ function connectUser(user_id, school_id) {
 
 }
 
-function update(school_id, changes) {
+function updateSchool(school_id, changes) {
   return db('schools')
     .where({ school_id })
-    .update(changes);
+    .update(changes)
+
 }
 
 function remove(school_id) {
@@ -81,7 +82,7 @@ module.exports = {
   schoolsAndUsers,
   addSchool,
   connectUser,
-  update,
+  updateSchool,
   remove,
   removeUserFromSchool,
   aSchoolUsers,

@@ -48,7 +48,9 @@ router.delete("/:id", restricted, (req, res) => {
           res.status(404).json({ message: "That user id does not exist" });
         }
       })
-      .catch(err => res.sendStatus(500));
+      .catch(err =>
+        res.status(500).json({ message: "Internal server error." })
+      );
   }
 });
 

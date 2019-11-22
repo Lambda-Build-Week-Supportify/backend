@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
 const Users = require("../users/users-model");
+const restricted = require("./restricted-middleware");
 
 router.post("/register", (req, res) => {
   const userInfo = req.body;
@@ -23,7 +24,7 @@ router.post("/register", (req, res) => {
     });
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", restricted, (req, res) => {
   let { username, password } = req.body;
   console.log("username: ", username, "password: ", password);
   Users.findBy({ username })
@@ -57,9 +58,8 @@ function generateToken(user) {
     board: user.board,
     primary_admin: user.primary_admin,
     sec_admin: user.sec_admin
-
-  }
-  console.log('PAYLOAD: ', payload);
+  };
+  console.log("PAYLOAD: ", payload);
   const secret = process.env.JWT_SECRET || "no evn secret";
 
   const options = {

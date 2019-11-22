@@ -29,7 +29,11 @@ router.get("/:id", (req, res) => {
   const school_id = req.params.id;
   Schools.findSchoolById(school_id)
     .then(school => {
-      res.status(200).json({ school });
+      if (school) {
+        res.status(200).json({ school });
+      } else {
+        res.status(404).json({ message: "We don't have a school by that id" });
+      }
     })
     .catch(err => {
       res
@@ -71,6 +75,7 @@ router.delete("/:id", restricted, (req, res) => {
       .json({ message: "You do not have rights to delete a school" });
   }
 });
+
 // will add auth/validation middleware here
 router.put("/:id", restricted, (req, res) => {
   console.log("req.user", req.user);
