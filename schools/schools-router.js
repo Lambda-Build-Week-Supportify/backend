@@ -76,12 +76,12 @@ router.delete("/:id", restricted, (req, res) => {
   }
 });
 
-// will add auth/validation middleware here restricted,
-router.put("/:id", (req, res) => {
+// will add auth/validation middleware here 
+router.put("/:id", restricted, (req, res) => {
   console.log("req.user", req.user);
   const board = req.decodedJwt.board;
   if (!board) {
-    Schools.update(req.params.id, req.body).then(changes => {
+    Schools.updateSchool(req.params.id, req.body).then(changes => {
       res.status(200).json(changes);
     });
   } else {
