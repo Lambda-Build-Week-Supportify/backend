@@ -1,8 +1,10 @@
 # Supportify
 
 *Introduction*
-`https://documenter.getpostman.com/view/6222631/SW7Z49AQ?version=latest`
+
 Connects users, schools and issues together
+
+`https://documenter.getpostman.com/view/6222631/SW7Z49AQ?version=latest`
 
 ## Overview
 Hit the endpoints below with axiosWithAuth() to retrieve data. I'll let you know which fields are required in order to get a successful response. (note: this document will be evolving, check back regularly);
