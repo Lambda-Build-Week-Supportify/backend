@@ -10,12 +10,21 @@ router.post("/register", (req, res) => {
   const hash = bcrypt.hashSync(userInfo.password, 10);
   userInfo.password = hash;
 
-  Users.add(userInfo)
-    .then(newUser => {
-      console.log("New User", newUser);
-      const token = generateToken(newUser);
-      console.log("Token: ", token);
-      res.status(201).json({ token, newUser });
+  Users.findBy({ username: userInfo.username })
+    .then(users => {
+      if (users[0]) {
+        console.log(users[0]);
+        res.status(409).json({ message: "That username already exists." })
+      } else {
+        Users.add(userInfo)
+          .then(newUser => {
+            console.log("New User", newUser);
+            const token = generateToken(newUser);
+            console.log("Token: ", token);
+            res.status(201).json({ token, newUser });
+          })
+      }
+
     })
     .catch(error => {
       res
