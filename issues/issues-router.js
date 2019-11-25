@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/user/:id", (req, res) => {
+router.get("/users/:id", (req, res) => {
   const user_id = req.params.id;
   Issues.userIssues(user_id)
     .then(issues => {

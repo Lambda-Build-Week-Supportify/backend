@@ -7,8 +7,8 @@ it("Testing to see if Jest works", () => {
 });
 
 describe("users endpoint", () => {
-  describe("GET /users", function() {
-    it("login user 3", function(done) {
+  describe("GET /users", function () {
+    it("login user 3", function (done) {
       supertest(app)
         .get("/api/auth/login")
         .auth({ username: "sally123", password: "1234" })
