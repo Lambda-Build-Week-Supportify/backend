@@ -33,7 +33,7 @@ function updateIssues(issues_id, changes) {
 
 }
 
-function userIssues(users_id) {
+function userIssues(user_id) {
   return db("issues as i")
     .join("users as u", "u.user_id", "i.user_id")
     .select(
@@ -44,7 +44,7 @@ function userIssues(users_id) {
       "u.sec_admin",
       "i.*"
     )
-    .where("u.user_id", "=", users_id);
+    .where("u.user_id", "=", user_id);
 }
 module.exports = {
   getAllIssues,

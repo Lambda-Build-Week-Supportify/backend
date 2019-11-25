@@ -24,7 +24,8 @@ router.get("/:id", (req, res) => {
 
 router.get("/user/:id", (req, res) => {
   const user_id = req.params.id;
-  Issues.userIssues({ user_id: user_id })
+  console.log("issures user_id", user_id);
+  Issues.userIssues(user_id)
     .then(issues => {
       if (issues) {
         res.status(200).json(issues);
