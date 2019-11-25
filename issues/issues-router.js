@@ -22,6 +22,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// get issues by the creator's user_id
 router.get("/user/:id", (req, res) => {
   const user_id = req.params.id;
 
@@ -42,6 +43,9 @@ router.get("/user/:id", (req, res) => {
       });
     });
 });
+
+
+
 
 router.post("/", restricted, (req, res) => {
   const issuesInfo = req.body;

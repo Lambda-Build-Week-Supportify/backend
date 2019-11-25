@@ -1,7 +1,7 @@
 const db = require("../data/dbConfig");
 
 function getAllSchools() {
-  return db('schools');
+  return db('schools').orderBy('school_name')
 }
 
 function findSchool(filter) {
