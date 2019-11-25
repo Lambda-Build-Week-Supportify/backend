@@ -1,7 +1,7 @@
 const db = require("../data/dbConfig");
 
 function getAllIssues() {
-  return db("issues");
+  return db("issues").orderBy('issues_id', 'desc');
 }
 
 function findIssue(filter) {
