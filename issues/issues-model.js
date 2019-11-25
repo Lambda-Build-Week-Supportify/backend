@@ -4,28 +4,28 @@ function getAllIssues() {
   return db("issues");
 }
 
-function findIssues(filter) {
+function findIssue(filter) {
   return db("issues").where(filter);
 }
 
-function findIssuesById(issues_id) {
+function findIssueById(issues_id) {
   return db("issues")
     .where("issues_id", issues_id)
     .first();
 }
 
-function addIssues(issuesInfo) {
-  console.log(issuesInfo);
-  return db("issues").insert(issuesInfo);
+function addIssue(issueInfo) {
+  console.log(issueInfo);
+  return db("issues").insert(issueInfo);
 }
 
-function removeIssues(issues_id) {
+function removeIssue(issue_id) {
   return db("issues")
-    .where({ issues_id: issues_id })
+    .where({ issues_id: issue_id })
     .del();
 }
 
-function updateIssues(issues_id, changes) {
+function updateIssue(issues_id, changes) {
   console.log("issues-model updateIssues reached issues_id, changes:", issues_id, changes);
   return db("issues")
     .update(changes)
@@ -48,10 +48,10 @@ function userIssues(user_id) {
 }
 module.exports = {
   getAllIssues,
-  findIssues,
-  findIssuesById,
-  addIssues,
-  removeIssues,
-  updateIssues,
+  findIssue,
+  findIssueById,
+  addIssue,
+  removeIssue,
+  updateIssue,
   userIssues
 };

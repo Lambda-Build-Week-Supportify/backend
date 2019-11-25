@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const issue_id = req.params.id;
-  Issues.findIssuesById(issue_id)
+  Issues.findIssueById(issue_id)
     .then(issue => {
       res.status(200).json({ issue });
     })
@@ -24,7 +24,7 @@ router.get("/:id", (req, res) => {
 
 router.get("/user/:id", (req, res) => {
   const user_id = req.params.id;
-  console.log("issures user_id", user_id);
+
   Issues.userIssues(user_id)
     .then(issues => {
       if (issues) {
@@ -47,7 +47,7 @@ router.post("/", restricted, (req, res) => {
   const issuesInfo = req.body;
   const board = req.decodedJwt.board;
   if (!board) {
-    Issues.addIssues(issuesInfo)
+    Issues.addIssue(issuesInfo)
       .then(newIssue => {
         console.log(newIssue);
         res.status(201).json({
@@ -71,10 +71,10 @@ router.put("/:id", restricted, (req, res) => {
   console.log("FindIssuesById issues_id", issues_id, "req.body", req.body);
   const board = req.decodedJwt.board;
   if (!board) {
-    Issues.findIssuesById(issues_id)
+    Issues.findIssueById(issues_id)
       .then(issues => {
         if (issues) {
-          Issues.updateIssues(issues_id, changes).then(updatedIssue => {
+          Issues.updateIssue(issues_id, changes).then(updatedIssue => {
             res.json({ updatedIssue, issues_id });
           });
         } else {
@@ -99,7 +99,7 @@ router.delete("/:id", restricted, (req, res) => {
   const board = req.decodedJwt.board;
   if (!board) {
     console.log("you have reached it");
-    Issues.removeIssues(issues_id)
+    Issues.removeIssue(issues_id)
       .then(deleted => {
         if (deleted) {
           res.json({ removed: deleted });
